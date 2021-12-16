@@ -29,13 +29,17 @@ namespace AltoHttp
 			var exists = File.Exists(filePath);
 			if(append)
 			{
-				if(!exists) throw new Exception("File not exists to resume");
+                if(!exists) throw new Exception("File not exists to resume");
 
-                var currentChecksum = CalculateMD5(filePath);
-                if (currentChecksum != lastChecksum)
-                    throw new FileValidationFailedException(filePath, lastChecksum, currentChecksum);
+                if (!string.IsNullOrEmpty(lastChecksum))
+                {
+                    var currentChecksum = CalculateMD5(filePath);
+                    if (currentChecksum != lastChecksum)
+                        throw new FileValidationFailedException(filePath, lastChecksum, currentChecksum);
+                    else return new FileStream(filePath, FileMode.Append, FileAccess.Write);
+                }
                 else return new FileStream(filePath, FileMode.Append, FileAccess.Write);
-			}
+            }
 			else
 			{
 				if(!exists) return new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite);

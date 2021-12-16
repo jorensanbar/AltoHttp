@@ -112,7 +112,19 @@ namespace AltoHttp
                     State = Status.GettingHeaders;
                     GetHeaders();
                     aop.Post(delegate { DownloadInfoReceived.Raise(this, EventArgs.Empty); }, null);
+                    Thread.Sleep(500);
                 }
+
+                //Get the Bytes Received before start download, and check if the file on disk is incomplete
+                FileInfo fileInfo = new FileInfo(FullFileName);
+
+                if (fileInfo.Exists)
+                {
+                    if (fileInfo.Length == Info.Length)
+                        throw new Exception("Total bytes received complete content length");
+                    else TotalBytesReceived = fileInfo.Length;
+                }
+
                 //Gets where download left
                 var append = RemainingRangeStart > 0;
                 var bytesRead = 0;

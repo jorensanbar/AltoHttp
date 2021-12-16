@@ -25,7 +25,7 @@ namespace AltoHttp
 				len = (len / 1024d);
 			}
 
-			return String.Format("{0:0.##} {1}", len, sizes[order]);
+			return String.Format("{0:0.00} {1}", len, sizes[order]);
 		}
 		public static string ToHumanReadableSize(this int byteLen)
 		{
