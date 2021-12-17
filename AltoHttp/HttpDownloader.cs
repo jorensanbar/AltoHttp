@@ -224,6 +224,18 @@ namespace AltoHttp
             downloadThread.Interrupt();
         }
         /// <summary>
+        /// Stops the download and resets the download
+        /// </summary>
+        public void Stop()
+        {
+            Pause();
+            stp.Reset();
+            speedBytesTotal = 0;
+            downloadThread = null;
+            flagResetSpeedBytes = true;
+            state = Status.None;
+        }
+        /// <summary>
         /// Stops the download, deletes the downloaded file and resets the download
         /// </summary>
         public void StopReset()
