@@ -192,7 +192,10 @@ namespace AltoHttp
             {
                 if (LastError == null || !(LastError is FileValidationFailedException))
                 {
-                    LastMD5Checksum = FileHelper.CalculateMD5(FullFileName);
+                    FileAttributes _attr = File.GetAttributes(FullFileName);
+
+                    if (!_attr.HasFlag(FileAttributes.Directory))
+                        LastMD5Checksum = FileHelper.CalculateMD5(FullFileName);
                 }
             }
         }
@@ -206,7 +209,7 @@ namespace AltoHttp
                 {
                     Process();
 
-                    while (allowDownload && TotalBytesReceived != Info.Length && Info.Length > 0 && Info.AcceptRange)
+                    while (Info != null && allowDownload && TotalBytesReceived != Info.Length && Info.Length > 0 && Info.AcceptRange)
                     {
                         flagResetSpeedBytes = false;
                         Process();
