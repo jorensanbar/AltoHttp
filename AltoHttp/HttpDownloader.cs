@@ -121,7 +121,11 @@ namespace AltoHttp
                 if (fileInfo.Exists)
                 {
                     if (fileInfo.Length == Info.Length)
-                        throw new Exception("Total bytes received complete content length");
+                    {
+                        State = Status.Completed;
+                        DownloadCompleted.Raise(this, EventArgs.Empty);
+                        return;
+                    }
                     else TotalBytesReceived = fileInfo.Length;
                 }
 
@@ -164,7 +168,6 @@ namespace AltoHttp
                     State = Status.Paused;
                     DownloadPaused.Raise(this, EventArgs.Empty);
                 }
-
             }
             catch (Exception ex)
             {
