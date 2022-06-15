@@ -17,7 +17,7 @@ namespace AltoHttp
 	{
 		public static string ToHumanReadableSize(this long byteLen)
 		{
-			string[] sizes = { "Bytes", "Kb", "Mb", "Gb", "Tb" };
+			string[] sizes = { "Bytes", "KB", "MB", "GB", "TB" };
 			int order = 0;
 			double len = byteLen;
 			while (len >= 1024d && order < sizes.Length - 1) {
