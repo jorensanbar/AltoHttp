@@ -122,6 +122,7 @@ namespace AltoHttp
                 {
                     if (fileInfo.Length == Info.Length)
                     {
+                        TotalBytesReceived += Info.Length;
                         State = Status.Completed;
                         DownloadCompleted.Raise(this, EventArgs.Empty);
                         return;
